@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class AnimalMuscle : MonoBehaviour
 {
+    /// <summary>
+    /// In this project, everything but the animal itself will not move (obstacle won't move, food won't move, and enemies won't chase the animal or flee, so enemies won't move either).
+    /// </summary>
+
     public int instruction; //Each int means one instruction
                             /// <summary>
                             /// 0: Completely Stop
@@ -18,9 +22,34 @@ public class AnimalMuscle : MonoBehaviour
     public float turnSpeed;
     public float moveSpeed;
 
+    /// <summary>
+    /// 1: Wander
+    /// </summary>
     public int turnPeriod; //This is only used for wander, the animal will turn and move in one way for this amount of time
     public float lastTurnTime; //Also used for wander, store the last time the animal start make a new turn
     public int turnDirection; //Also used for wander, store a int to give the turning a - or + sign
+
+    /// <summary>
+    /// 2: Seek food
+    /// </summary>
+
+    /// <summary>
+    /// 3: Seek enemy
+    /// </summary>
+
+    /// <summary>
+    /// 4: Atk
+    /// </summary>
+
+    /// <summary>
+    /// 5: Flee
+    /// </summary>
+
+    /// <summary>
+    /// 6: Avoid
+    /// </summary>
+    public bool turnLeft; //If it is true then the animal will turn left to avoid the obstacle, else it will turn right.
+    
 
     // Use this for initialization
     void Start()
@@ -73,7 +102,19 @@ public class AnimalMuscle : MonoBehaviour
 
         else if (instruction == 6)
         {
+            //print("Avoid");
 
+            if(turnLeft)
+            {
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * 1f);
+                transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
+            }
+
+            else
+            {
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * -1f);
+                transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
+            }
         }
     }
 }

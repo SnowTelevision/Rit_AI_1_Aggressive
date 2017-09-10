@@ -6,8 +6,12 @@ public class GeneralSensor : MonoBehaviour
 {
     public AnimalMuscle muscle;
     public float detectingRange;
+    public AvoidPlanning avoidPlanner;
 
     public RaycastHit hit;
+
+    public RaycastHit rightHit;
+    public RaycastHit leftHit;
 
     // Use this for initialization
     void Start()
@@ -18,7 +22,10 @@ public class GeneralSensor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Physics.Raycast(transform.position + transform.up, transform.up, out hit, detectingRange))
+        rightHit = new RaycastHit();
+        leftHit = new RaycastHit();
+
+        if (Physics.Raycast(transform.position + transform.up, transform.up, out hit, detectingRange))
         {
             Debug.DrawRay(transform.position + transform.up, transform.up * 10, Color.green);
             if(hit.transform.tag == "Food")
@@ -27,21 +34,23 @@ public class GeneralSensor : MonoBehaviour
             }
         }
 
-        if(Physics.Raycast(transform.position + transform.up + transform.right * 0.5f, transform.up, out hit, detectingRange))
+        if(Physics.Raycast(transform.position + transform.up + transform.right * 0.6f, transform.up, out rightHit, detectingRange)) //Right side of the animal
         {
-            Debug.DrawRay(transform.position + transform.up + transform.right * 0.5f, transform.up * 10, Color.red);
-            if (hit.transform.tag == "Obstacle")
+            Debug.DrawRay(transform.position + transform.up + transform.right * 0.6f, transform.up * 10, Color.red);
+
+            if (rightHit.transform.tag == "Obstacle")
             {
-                muscle.instruction = 6;
+                avoidPlanner.avoid = true;
             }
         }
 
-        if (Physics.Raycast(transform.position + transform.up - transform.right * 0.5f, transform.up, out hit, detectingRange))
+        if (Physics.Raycast(transform.position + transform.up - transform.right * 0.6f, transform.up, out leftHit, detectingRange)) //Left side of the animal
         {
-            Debug.DrawRay(transform.position + transform.up - transform.right * 0.5f, transform.up * 10, Color.red);
-            if (hit.transform.tag == "Obstacle")
+            Debug.DrawRay(transform.position + transform.up - transform.right * 0.6f, transform.up * 10, Color.red);
+
+            if (leftHit.transform.tag == "Obstacle")
             {
-                muscle.instruction = 6;
+                avoidPlanner.avoid = true;
             }
         }
     }
