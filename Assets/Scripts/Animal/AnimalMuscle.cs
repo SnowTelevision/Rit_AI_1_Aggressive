@@ -100,6 +100,9 @@ public class AnimalMuscle : MonoBehaviour
 
         }
 
+        ///
+        /// After avoid, the animal will choose a new random direction (turn left or right)
+        ///
         else if (instruction == 6)
         {
             //print("Avoid");
@@ -115,6 +118,10 @@ public class AnimalMuscle : MonoBehaviour
                 transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * -1f);
                 transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
             }
+
+            lastTurnTime = Time.time;
+            turnPeriod = bRand.betterRandom(0, 3);
+            turnDirection = bRand.betterRandom(-50, 49);
         }
     }
 }
