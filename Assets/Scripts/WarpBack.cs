@@ -15,15 +15,15 @@ public class WarpBack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        transform.position = new Vector3(Mathf.Repeat(transform.position.x, 40f), Mathf.Repeat(transform.position.y, 40f), 0);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Border")
-        {
-            print("border");
-            animal.transform.position = (Vector3.zero - other.transform.position) * 0.9f;
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if(other.tag == "Border")
+    //    {
+    //        print("border");
+    //        animal.transform.position = (Vector3.zero - other.transform.position) * 0.9f;
+    //    }
+    //}
 }

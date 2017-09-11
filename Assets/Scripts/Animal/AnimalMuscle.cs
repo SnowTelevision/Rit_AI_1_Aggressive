@@ -21,6 +21,7 @@ public class AnimalMuscle : MonoBehaviour
 
     public float turnSpeed;
     public float moveSpeed;
+    public float avoidMulti; //How much faster the animal will turn if it is trying to avoid obstacles
 
     /// <summary>
     /// 1: Wander
@@ -32,6 +33,7 @@ public class AnimalMuscle : MonoBehaviour
     /// <summary>
     /// 2: Seek food
     /// </summary>
+    public GameObject food;
 
     /// <summary>
     /// 3: Seek enemy
@@ -57,6 +59,7 @@ public class AnimalMuscle : MonoBehaviour
         instruction = 0;
         turnPeriod = 0;
         lastTurnTime = 0;
+        //transform.rotation.SetLookRotation(transform.up, -transform.forward);
     }
 
     // Update is called once per frame
@@ -82,7 +85,11 @@ public class AnimalMuscle : MonoBehaviour
 
         else if (instruction == 2)
         {
-
+            //transform.rotation.SetLookRotation(transform.up, -transform.forward);
+            transform.up = Vector3.Normalize(food.transform.position - transform.position);
+            //transform.LookAt(food.transform);
+            //transform.rotation.SetLookRotation(-transform.up, transform.forward);
+            transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
         }
 
         else if (instruction == 3)
@@ -109,13 +116,13 @@ public class AnimalMuscle : MonoBehaviour
 
             if(turnLeft)
             {
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * 1f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * 1f * avoidMulti);
                 transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
             }
 
             else
             {
-                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * -1f);
+                transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * -1f * avoidMulti);
                 transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
             }
 

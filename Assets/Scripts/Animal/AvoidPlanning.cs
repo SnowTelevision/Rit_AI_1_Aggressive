@@ -8,6 +8,7 @@ public class AvoidPlanning : MonoBehaviour
     public GeneralSensor obstacleSensor;
 
     public bool avoid;
+    public GameObject currentObstacle; //The current obstacle the animal is trying to avoid.
 
     // Use this for initialization
     void Start()
@@ -23,8 +24,15 @@ public class AvoidPlanning : MonoBehaviour
             //print(obstacleSensor.rightHit.transform.name);
             //print(obstacleSensor.leftHit.transform.name);
 
+            muscle.instruction = 6;
+
             if (!obstacleSensor.rightHit.Equals(new RaycastHit()))
             {
+                if(obstacleSensor.rightHit.transform.gameObject.Equals(currentObstacle)) //If the new ray is hitting the current obstacle the animal is trying to avoid
+                {
+                    return;
+                }
+
                 if (Vector3.Cross(-transform.up, obstacleSensor.rightHit.normal).z > 0) //Means the ray is on the left side of the normal of the surface it hits
                 {
                     muscle.turnLeft = false;
@@ -43,6 +51,11 @@ public class AvoidPlanning : MonoBehaviour
 
             if (!obstacleSensor.leftHit.Equals(new RaycastHit()))
             {
+                if (obstacleSensor.leftHit.transform.gameObject.Equals(currentObstacle)) //If the new ray is hitting the current obstacle the animal is trying to avoid
+                {
+                    return;
+                }
+
                 if (obstacleSensor.rightHit.Equals(new RaycastHit())) //If only left ray hit an obstacle
                 {
                     if (Vector3.Cross(-transform.up, obstacleSensor.leftHit.normal).z > 0) //Means the ray is on the left side of the normal of the surface it hits
@@ -82,6 +95,17 @@ public class AvoidPlanning : MonoBehaviour
                     } //End if the left ray hit on a different obstacle than the right ray, or they hit the same surface of the same obstacle
                 } //End if left is nearer
             } //End leftHit
+
+            if(!obstacleSensor.rightHit.Equals(new RaycastHit()))
+            {
+                currentObstacle = obstacleSensor.rightHit.transform.gameObject;
+            }
+
+            else
+            {
+                currentObstacle = obstacleSensor.leftHit.transform.gameObject;
+            }
+
         } //End avoid
     } //End Update()
 }
