@@ -15,7 +15,7 @@ public class WarpBack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(Mathf.Repeat(transform.position.x, 40f), Mathf.Repeat(transform.position.y, 40f), 0);
+        transform.position = new Vector3(Mathf.Repeat(transform.position.x, 100f), Mathf.Repeat(transform.position.y, 100f), 0);
     }
 
     //private void OnTriggerEnter(Collider other)

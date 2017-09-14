@@ -30,6 +30,7 @@ public class AvoidPlanning : MonoBehaviour
             {
                 if(obstacleSensor.rightHit.transform.gameObject.Equals(currentObstacle)) //If the new ray is hitting the current obstacle the animal is trying to avoid
                 {
+                    //print("right hit same: " + currentObstacle);
                     return;
                 }
 
@@ -53,6 +54,7 @@ public class AvoidPlanning : MonoBehaviour
             {
                 if (obstacleSensor.leftHit.transform.gameObject.Equals(currentObstacle)) //If the new ray is hitting the current obstacle the animal is trying to avoid
                 {
+                    //print("left hit same: " + currentObstacle);
                     return;
                 }
 
@@ -96,13 +98,15 @@ public class AvoidPlanning : MonoBehaviour
                 } //End if left is nearer
             } //End leftHit
 
-            if(!obstacleSensor.rightHit.Equals(new RaycastHit()))
+            if(!obstacleSensor.rightHit.Equals(new RaycastHit()) && obstacleSensor.rightHit.transform.tag == "Obstacle")
             {
+                //print("assign new obstacle: " + obstacleSensor.rightHit.transform.name);
                 currentObstacle = obstacleSensor.rightHit.transform.gameObject;
             }
 
-            else
+            else if(!obstacleSensor.leftHit.Equals(new RaycastHit()) && obstacleSensor.leftHit.transform.tag == "Obstacle")
             {
+                //print("assign new obstacle: " + obstacleSensor.leftHit.transform.name);
                 currentObstacle = obstacleSensor.leftHit.transform.gameObject;
             }
 

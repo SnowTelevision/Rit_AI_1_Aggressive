@@ -12,11 +12,14 @@ public class AnimalMuscle : MonoBehaviour
                             /// <summary>
                             /// 0: Completely Stop
                             /// 1: Wander
+                            /// Done
                             /// 2: Move towards food and eat
+                            /// Done
                             /// 3: Move towards enemy
                             /// 4: Attack enemy
                             /// 5: Flee
                             /// 6: Avoid obstacle
+                            /// Done
                             /// </summary>
 
     public float turnSpeed;
@@ -38,6 +41,7 @@ public class AnimalMuscle : MonoBehaviour
     /// <summary>
     /// 3: Seek enemy
     /// </summary>
+    public GameObject enemy;
 
     /// <summary>
     /// 4: Atk
