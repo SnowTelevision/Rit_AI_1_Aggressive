@@ -46,6 +46,8 @@ public class AnimalMuscle : MonoBehaviour
     /// <summary>
     /// 4: Atk
     /// </summary>
+    public float lastAtkTime; //The time the animal last attacked (used for attack cool down)
+    public float atkCD; //How long the animal needs to wait for next attack
 
     /// <summary>
     /// 5: Flee
@@ -63,6 +65,7 @@ public class AnimalMuscle : MonoBehaviour
         instruction = 0;
         turnPeriod = 0;
         lastTurnTime = 0;
+        lastAtkTime = 0;
         //transform.rotation.SetLookRotation(transform.up, -transform.forward);
     }
 
@@ -98,17 +101,35 @@ public class AnimalMuscle : MonoBehaviour
 
         else if (instruction == 3)
         {
-
+            transform.up = Vector3.Normalize(enemy.transform.position - transform.position);
+            transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
         }
 
         else if (instruction == 4)
         {
-
+            if (Time.time - lastAtkTime >= atkCD)
+            {
+                lastAtkTime = Time.time;
+                enemy.GetComponent<AnimalHealth>().currentHealth -= 1;
+            }
         }
 
         else if (instruction == 5)
         {
+            //if (enemy != null)
+            {
+                if (transform.InverseTransformPoint(enemy.transform.position).x > 0) // Enemy is at the right side, turn left
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * 1f * avoidMulti);
+                    transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
+                }
 
+                else
+                {
+                    transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z + Time.deltaTime * turnSpeed * -1f * avoidMulti);
+                    transform.position = transform.position + transform.up * Time.deltaTime * moveSpeed;
+                }
+            }
         }
 
         ///

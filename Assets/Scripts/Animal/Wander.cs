@@ -13,7 +13,7 @@ public class Wander : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         muscle.instruction = 1;
     }

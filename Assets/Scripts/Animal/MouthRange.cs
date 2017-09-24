@@ -7,10 +7,13 @@ public class MouthRange : MonoBehaviour
     public AnimalMuscle muscle;
     public AnimalHealth animalHealth;
 
+    public bool isAttacking; // If the animal is attacking another enemy
+
     // Use this for initialization
     void Start()
     {
         animalHealth = FindObjectOfType<AnimalHealth>();
+        isAttacking = false;
     }
 
     // Update is called once per frame
@@ -23,13 +26,36 @@ public class MouthRange : MonoBehaviour
     {
         if (other.tag == "Food")
         {
-            if(animalHealth.health < 10)
+            if(animalHealth.currentHealth < 10)
             {
-                animalHealth.health++;
+                animalHealth.currentHealth++;
             }
 
             Destroy(other.gameObject);
+            muscle.food = null;
         }
 
+        if (other.tag == "Enemy" && !other.gameObject.Equals(muscle.gameObject))
+        {
+            isAttacking = true;
+            muscle.instruction = 4;
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "Enemy" && !other.gameObject.Equals(muscle.gameObject))
+        {
+            isAttacking = true;
+            muscle.instruction = 4;
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            isAttacking = false;
+        }
     }
 }
