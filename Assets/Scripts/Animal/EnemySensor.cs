@@ -51,6 +51,16 @@ public class EnemySensor : MonoBehaviour
                 muscle.instruction = 5;
             }
         }
+
+        if (!other.gameObject.Equals(muscle.enemy)) // If the detected object is not the current enemy
+        {
+            if (other.tag == "Enemy" && !other.gameObject.Equals(muscle.gameObject)) // If the detected object is not the current enemy
+            {
+                //print("the other enemy");
+                muscle.enemy = other.gameObject;
+
+            }
+        }
     }
 
     public void OnTriggerExit(Collider other)

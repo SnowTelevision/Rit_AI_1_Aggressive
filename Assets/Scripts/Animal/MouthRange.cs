@@ -12,7 +12,7 @@ public class MouthRange : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        animalHealth = FindObjectOfType<AnimalHealth>();
+        //animalHealth = FindObjectOfType<AnimalHealth>();
         isAttacking = false;
     }
 
@@ -26,12 +26,17 @@ public class MouthRange : MonoBehaviour
     {
         if (other.tag == "Food")
         {
+            //print("food " + animalHealth.currentHealth);
+
             if(animalHealth.currentHealth < 10)
             {
+                //print("increase health");
                 animalHealth.currentHealth++;
+                //print("increase health " + animalHealth.currentHealth);
             }
 
             Destroy(other.gameObject);
+            muscle.instruction = 1; // If the food is gone, go back to wandering
             muscle.food = null;
         }
 
